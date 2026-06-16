@@ -30,7 +30,7 @@
     --verify-soft:#E0EDE9;
     --signal-soft:#F7E3DA;
     --radius:14px;
-    --maxw:980px;
+    --maxw:1080px;
     --shadow:0 1px 0 rgba(25,24,18,.04), 0 10px 30px -18px rgba(25,24,18,.28);
   }
   *{box-sizing:border-box}
@@ -211,6 +211,15 @@
     .cta-primary:hover,.run:hover,.save:hover{transform:none}
   }
 
+  /* PC：ヒーローを2段組み（見出し左／実データ計器 右） */
+  @media (min-width:900px){
+    .hero{padding:96px 0 64px}
+    .hero .wrap{display:grid; grid-template-columns:1.05fr .95fr; gap:56px; align-items:center}
+    .hero h1{max-width:none}
+    .hero .lede{max-width:42ch}
+    .hero .gauge{margin-top:0}
+  }
+
   /* レスポンシブ */
   @media (max-width:680px){
     .gauge-body,.readouts{grid-template-columns:1fr 1fr}
@@ -234,6 +243,7 @@
 <!-- ============ ヒーロー ============ -->
 <section class="hero">
   <div class="wrap">
+    <div class="hero-text">
     <div class="eyebrow">For solo makers / 個人開発者のための</div>
     <h1>周知は、<span class="strike">魔法</span>じゃない。<br>地道な営業だ。</h1>
     <p class="lede">「どこで・どう・何を投稿するか」を、型に合わせて具体的に。でも“正解を授ける”ツールではありません。運営者もまだ手探りで、実際に試した記録を持ち寄り、あなたと一緒に次の一手を探していきます。</p>
@@ -241,6 +251,7 @@
       <a class="cta-primary" href="#tool">あなたのアプリを診断する <span class="arrow">→</span></a>
       <span class="cta-note">無料・登録なし・¥0で運営</span>
     </div>
+    </div><!-- /.hero-text -->
 
     <!-- 計器：嘘をつかない実データ（ヒーローの目玉） -->
     <div class="gauge reveal" aria-label="運営者の実データ">
