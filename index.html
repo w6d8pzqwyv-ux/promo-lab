@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>周知ラボ（PROMO LAB） — 個人開発アプリを、一緒に知ってもらう</title>
+<meta name="description" content="個人開発したアプリを『どこで・どう・何を投稿して知ってもらうか』を、アプリの型に合わせて具体的に示すマーケPDCAツール。自動でバズらせる魔法ではありません。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E8E6DD;        /* 地：温かみのあるボーン */
+    --card:#F7F6F1;         /* カード：ほぼ白 */
+    --ink:#191812;          /* 文字：温黒 */
+    --muted:#6E6B60;        /* 補助 */
+    --line:#D6D3C7;         /* 罫線（ヘアライン） */
+    --line-2:#C7C3B5;
+    --signal:#E2491F;       /* シグナル・バーミリオン（Reddit由来・行動/目印） */
+    --signal-ink:#B7370F;
+    --verify:#0F6E64;       /* ディープ・ティール（実データ/検証済み） */
+    --verify-soft:#E0EDE9;
+    --signal-soft:#F7E3DA;
+    --radius:14px;
+    --maxw:980px;
+    --shadow:0 1px 0 rgba(25,24,18,.04), 0 10px 30px -18px rgba(25,24,18,.28);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Noto Sans JP",system-ui,sans-serif;
+    font-size:16px; line-height:1.75; letter-spacing:.01em;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px}
+  h1,h2,h3{font-family:"Space Grotesk","Noto Sans JP",sans-serif; line-height:1.15; letter-spacing:-.01em; font-weight:600}
+  .mono{font-family:"Space Mono",ui-monospace,monospace}
+  .eyebrow{
+    font-family:"Space Mono",monospace; font-size:12px; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--verify); font-weight:700;
+  }
+  a{color:var(--signal-ink)}
+
+  /* ---------- ヘッダー ---------- */
+  .topbar{position:sticky; top:0; z-index:20; background:rgba(232,230,221,.82); backdrop-filter:saturate(1.2) blur(8px); border-bottom:1px solid var(--line)}
+  .topbar .wrap{display:flex; align-items:center; justify-content:space-between; height:60px}
+  .brand{display:flex; align-items:center; gap:10px; font-family:"Space Grotesk",sans-serif; font-weight:700; letter-spacing:-.01em}
+  .brand .dot{width:11px; height:11px; border-radius:3px; background:var(--signal); box-shadow:0 0 0 4px var(--signal-soft)}
+  .brand small{font-family:"Space Mono",monospace; font-weight:400; color:var(--muted); font-size:11px; letter-spacing:.1em}
+  .btn-top{font-family:"Space Mono",monospace; font-size:12px; letter-spacing:.08em; text-decoration:none; color:var(--ink); border:1px solid var(--line-2); padding:8px 14px; border-radius:999px; transition:border-color .2s, background .2s}
+  .btn-top:hover{border-color:var(--ink); background:var(--card)}
+
+  /* ---------- ヒーロー ---------- */
+  .hero{padding:84px 0 56px; position:relative; overflow:hidden}
+  .hero .eyebrow{margin-bottom:22px}
+  .hero h1{font-size:clamp(34px,6vw,62px); font-weight:700; margin:0 0 8px; max-width:16ch}
+  .hero h1 .strike{position:relative; white-space:nowrap}
+  .hero h1 .strike::after{content:""; position:absolute; left:-2%; right:-2%; top:54%; height:5px; background:var(--signal); transform:rotate(-2deg); border-radius:2px}
+  .hero .lede{font-size:clamp(16px,2.2vw,20px); color:var(--muted); max-width:46ch; margin:18px 0 0; line-height:1.7}
+  .hero-cta{margin-top:34px; display:flex; gap:14px; flex-wrap:wrap; align-items:center}
+  .cta-primary{font-family:"Space Grotesk",sans-serif; font-weight:600; font-size:16px; color:var(--card); background:var(--ink); border:none; border-radius:999px; padding:14px 26px; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; gap:10px; transition:transform .15s, background .2s}
+  .cta-primary:hover{background:#000; transform:translateY(-1px)}
+  .cta-primary .arrow{color:var(--signal)}
+  .cta-note{font-family:"Space Mono",monospace; font-size:12px; color:var(--muted)}
+
+  /* 計器：実データの証拠（ヒーローの目玉） */
+  .gauge{margin-top:46px; background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden}
+  .gauge-head{display:flex; align-items:center; gap:10px; padding:14px 20px; border-bottom:1px dashed var(--line-2); font-family:"Space Mono",monospace; font-size:12px; letter-spacing:.08em; color:var(--muted)}
+  .gauge-head .live{width:8px; height:8px; border-radius:50%; background:var(--verify); box-shadow:0 0 0 3px var(--verify-soft)}
+  .gauge-body{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line)}
+  .stat{background:var(--card); padding:22px 20px}
+  .stat .n{font-family:"Space Mono",monospace; font-weight:700; font-size:clamp(28px,5vw,40px); line-height:1; letter-spacing:-.02em}
+  .stat .l{font-size:12px; color:var(--muted); margin-top:8px; font-family:"Space Mono",monospace; letter-spacing:.04em}
+  .stat.warn .n{color:var(--signal)}
+  .gauge-foot{padding:14px 20px; font-size:13.5px; color:var(--muted); border-top:1px solid var(--line); background:linear-gradient(0deg,rgba(15,110,100,.04),transparent)}
+  .gauge-foot b{color:var(--ink); font-weight:500}
+
+  /* ---------- セクション共通 ---------- */
+  section{padding:30px 0}
+  .section-title{display:flex; align-items:baseline; gap:14px; margin:0 0 6px}
+  .section-title h2{font-size:clamp(22px,3.4vw,30px); margin:0}
+  .section-title .idx{font-family:"Space Mono",monospace; color:var(--signal); font-size:13px; font-weight:700}
+  .section-sub{color:var(--muted); margin:0 0 24px; max-width:60ch}
+
+  /* ---------- ツール（入力） ---------- */
+  .tool{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:28px}
+  .field{margin-bottom:22px}
+  .field:last-of-type{margin-bottom:26px}
+  .field > label{display:block; font-family:"Space Mono",monospace; font-size:12px; letter-spacing:.06em; color:var(--ink); font-weight:700; margin-bottom:12px}
+  .field > label .q{color:var(--signal); margin-right:8px}
+  .opts{display:flex; gap:10px; flex-wrap:wrap}
+  .opt{position:relative}
+  .opt input{position:absolute; opacity:0; inset:0; cursor:pointer}
+  .opt span{display:inline-block; padding:11px 16px; border:1px solid var(--line-2); border-radius:10px; background:var(--paper); font-size:14.5px; transition:all .15s; cursor:pointer}
+  .opt input:checked + span{border-color:var(--ink); background:var(--ink); color:var(--card)}
+  .opt input:focus-visible + span{outline:2px solid var(--signal); outline-offset:2px}
+  .opt span small{display:block; font-size:11px; color:var(--muted); margin-top:2px}
+  .opt input:checked + span small{color:rgba(247,246,241,.7)}
+  .run{font-family:"Space Grotesk",sans-serif; font-weight:600; font-size:16px; background:var(--signal); color:#fff; border:none; border-radius:999px; padding:14px 28px; cursor:pointer; transition:transform .15s, background .2s}
+  .run:hover{background:var(--signal-ink); transform:translateY(-1px)}
+
+  /* ---------- 結果 ---------- */
+  #result{margin-top:8px}
+  .result-card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:26px; margin-top:18px}
+  .verdict{display:flex; flex-wrap:wrap; align-items:center; gap:12px}
+  .pill{font-family:"Space Mono",monospace; font-size:12px; font-weight:700; letter-spacing:.04em; padding:6px 12px; border-radius:999px}
+  .pill.tier{background:var(--ink); color:var(--card)}
+  .pill.hook{background:var(--signal-soft); color:var(--signal-ink)}
+  .verdict h3{font-size:22px; margin:0; flex:1 1 auto; min-width:200px}
+
+  .why{margin-top:18px; border-left:3px solid var(--verify); padding:4px 0 4px 18px}
+  .why h4{margin:0 0 10px; font-size:15px; font-family:"Space Grotesk",sans-serif}
+  .why ol{margin:0; padding-left:20px; color:var(--ink)}
+  .why li{margin-bottom:6px}
+  .why .honest{margin-top:14px; font-size:13.5px; color:var(--muted); background:var(--paper); border:1px dashed var(--line-2); border-radius:10px; padding:12px 14px}
+
+  /* チャネル計器カード */
+  .channel{margin-top:18px; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden}
+  .channel-head{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:14px 18px; background:var(--ink); color:var(--card)}
+  .channel-head .name{font-family:"Space Grotesk",sans-serif; font-weight:600; font-size:17px}
+  .channel-head .rank{font-family:"Space Mono",monospace; font-size:11px; letter-spacing:.1em; border:1px solid rgba(247,246,241,.4); padding:3px 9px; border-radius:999px}
+  .readouts{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line)}
+  .readout{background:var(--card); padding:16px 16px}
+  .readout .k{font-family:"Space Mono",monospace; font-size:10.5px; letter-spacing:.12em; color:var(--verify); text-transform:uppercase; font-weight:700}
+  .readout .v{font-size:13.5px; margin-top:7px; color:var(--ink); line-height:1.6}
+  .channel-data{padding:16px 18px; border-top:1px solid var(--line); font-size:13.5px; color:var(--muted); background:var(--verify-soft)}
+  .channel-data .real{font-family:"Space Mono",monospace; color:var(--verify); font-weight:700}
+
+  /* テンプレ（英日） */
+  .tpl{margin-top:10px; border:1px solid var(--line); border-radius:12px; overflow:hidden}
+  .tpl-row{padding:16px 18px; border-bottom:1px solid var(--line)}
+  .tpl-row:last-child{border-bottom:none}
+  .tpl-row .tag{font-family:"Space Mono",monospace; font-size:11px; letter-spacing:.08em; color:var(--muted); font-weight:700; display:flex; justify-content:space-between; align-items:center}
+  .en{position:relative; margin-top:10px; background:#14130E; color:#F2F0E6; border-radius:10px; padding:14px 16px; font-family:"Space Mono",monospace; font-size:13.5px; line-height:1.7; white-space:pre-wrap}
+  .copy{font-family:"Space Mono",monospace; font-size:11px; letter-spacing:.06em; color:var(--muted); background:none; border:1px solid var(--line-2); border-radius:7px; padding:5px 11px; cursor:pointer; transition:all .15s}
+  .copy:hover{border-color:var(--ink); color:var(--ink)}
+  .copy.done{color:var(--verify); border-color:var(--verify)}
+  .ja{margin-top:10px; font-size:14px; color:var(--ink)}
+  .blanks{margin-top:8px; font-size:12.5px; color:var(--muted); background:var(--paper); border-radius:8px; padding:9px 12px}
+  .blanks b{color:var(--signal-ink)}
+  .nuance{margin-top:8px; font-size:12.5px; color:var(--verify)}
+  .nuance::before{content:"⚑ "}
+
+  /* 実験ログ（PDCA） */
+  .log-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px}
+  .log-grid .full{grid-column:1/-1}
+  .log-grid input, .log-grid textarea{width:100%; font-family:"Space Mono",monospace; font-size:14px; padding:11px 12px; border:1px solid var(--line-2); border-radius:9px; background:var(--paper); color:var(--ink)}
+  .log-grid input:focus, .log-grid textarea:focus{outline:2px solid var(--verify); outline-offset:1px; background:var(--card)}
+  .log-grid label{font-family:"Space Mono",monospace; font-size:11px; color:var(--muted); display:block; margin-bottom:6px; letter-spacing:.04em}
+  .save{margin-top:14px; font-family:"Space Grotesk",sans-serif; font-weight:600; background:var(--verify); color:#fff; border:none; border-radius:999px; padding:12px 24px; cursor:pointer; transition:transform .15s, background .2s}
+  .save:hover{transform:translateY(-1px); background:#0c5d54}
+  .agg{display:flex; gap:10px; flex-wrap:wrap; margin-top:18px}
+  .agg .chip{font-family:"Space Mono",monospace; font-size:12.5px; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:10px 14px}
+  .agg .chip b{font-size:17px; display:block; margin-top:3px}
+  .log-list{margin-top:16px; display:flex; flex-direction:column; gap:8px}
+  .log-item{display:flex; gap:14px; align-items:baseline; font-family:"Space Mono",monospace; font-size:12.5px; background:var(--card); border:1px solid var(--line); border-left:3px solid var(--signal); border-radius:8px; padding:10px 14px; flex-wrap:wrap}
+  .log-item .where{font-weight:700}
+  .log-item .ctr{margin-left:auto; color:var(--verify); font-weight:700}
+  .next{margin-top:16px; border:1px solid var(--signal); background:var(--signal-soft); border-radius:12px; padding:14px 16px}
+  .next .k{font-family:"Space Mono",monospace; font-size:11px; letter-spacing:.1em; color:var(--signal-ink); font-weight:700; text-transform:uppercase}
+  .next .v{margin-top:6px; color:var(--ink)}
+  .next .causes{margin:8px 0 10px; padding-left:20px}
+  .next .causes li{margin:2px 0}
+  .next .bench{margin-top:10px; font-family:"Space Mono",monospace; font-size:11px; color:var(--muted); border-top:1px dashed var(--line-2); padding-top:8px}
+
+  .empty{color:var(--muted); font-size:13.5px; font-style:normal; padding:14px; border:1px dashed var(--line-2); border-radius:10px; text-align:center}
+
+  /* 入門（折りたたみ） */
+  details.intro{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:4px 0; box-shadow:var(--shadow)}
+  details.intro summary{cursor:pointer; list-style:none; padding:18px 24px; font-family:"Space Grotesk",sans-serif; font-weight:600; font-size:17px; display:flex; align-items:center; justify-content:space-between}
+  details.intro summary::-webkit-details-marker{display:none}
+  details.intro summary .hint{font-family:"Noto Sans JP",sans-serif; font-weight:400; font-size:12.5px; color:var(--muted)}
+  details.intro summary .chev{transition:transform .2s; color:var(--signal)}
+  details.intro[open] summary .chev{transform:rotate(90deg)}
+  .intro-body{padding:0 24px 22px}
+  .intro-row{padding:16px 0; border-top:1px solid var(--line)}
+  .intro-row .k{font-family:"Space Grotesk",sans-serif; font-weight:600; font-size:15px}
+  .intro-row .v{color:var(--muted); margin-top:5px; font-size:14px}
+  .intro-row .v b{color:var(--ink); font-weight:500}
+
+  /* フッター */
+  footer{margin-top:40px; border-top:1px solid var(--line); padding:32px 0 60px}
+  footer .wrap{display:flex; flex-direction:column; gap:14px}
+  .pledge{font-size:13.5px; color:var(--muted); max-width:64ch}
+  .pledge b{color:var(--ink); font-weight:500}
+  .foot-meta{font-family:"Space Mono",monospace; font-size:11px; color:var(--muted); letter-spacing:.06em}
+
+  /* 動き（控えめ・reduce-motion尊重） */
+  .reveal{opacity:0; transform:translateY(14px)}
+  .reveal.in{opacity:1; transform:none; transition:opacity .6s ease, transform .6s ease}
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .reveal{opacity:1; transform:none; transition:none}
+    .cta-primary:hover,.run:hover,.save:hover{transform:none}
+  }
+
+  /* レスポンシブ */
+  @media (max-width:680px){
+    .gauge-body,.readouts{grid-template-columns:1fr 1fr}
+    .log-grid{grid-template-columns:1fr 1fr}
+    .hero{padding:60px 0 40px}
+  }
+  @media (max-width:440px){
+    .gauge-body,.readouts,.log-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span>周知ラボ <small>PROMO&nbsp;LAB</small></div>
+    <a class="btn-top" href="#tool">診断をはじめる</a>
+  </div>
+</header>
+
+<!-- ============ ヒーロー ============ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">For solo makers / 個人開発者のための</div>
+    <h1>周知は、<span class="strike">魔法</span>じゃない。<br>地道な営業だ。</h1>
+    <p class="lede">「どこで・どう・何を投稿するか」を、型に合わせて具体的に。でも“正解を授ける”ツールではありません。運営者もまだ手探りで、実際に試した記録を持ち寄り、あなたと一緒に次の一手を探していきます。</p>
+    <div class="hero-cta">
+      <a class="cta-primary" href="#tool">あなたのアプリを診断する <span class="arrow">→</span></a>
+      <span class="cta-note">無料・登録なし・¥0で運営</span>
+    </div>
+
+    <!-- 計器：嘘をつかない実データ（ヒーローの目玉） -->
+    <div class="gauge reveal" aria-label="運営者の実データ">
+      <div class="gauge-head"><span class="live"></span>運営者の実投稿データ &nbsp;/&nbsp; r/midlifecrisis &nbsp;·&nbsp; 2026-06-16</div>
+      <div class="gauge-body">
+        <div class="stat"><div class="n">411</div><div class="l">表示 / views</div></div>
+        <div class="stat"><div class="n">3</div><div class="l">upvote</div></div>
+        <div class="stat warn"><div class="n">0</div><div class="l">感情コメント</div></div>
+      </div>
+      <div class="gauge-foot">景気のいい数字は載せません。これは<b>実際に出た、ありのままの結果</b>です。ここから何を学ぶか——それを一緒にやるのがこのツールです。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ツール ============ -->
+<section id="tool">
+  <div class="wrap">
+    <div class="section-title"><span class="idx">01</span><h2>3つだけ教えてください</h2></div>
+    <p class="section-sub">細かい分類は裏側でやります。あなたが選ぶのは3つだけ。</p>
+
+    <form class="tool" id="advisor-form">
+      <div class="field">
+        <label><span class="q">Q1</span>あなたのアプリは、どんな型？</label>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="type" value="A-感情" checked><span>感情コンテンツ型<small>気持ち・人生・自分ごとに触れる</small></span></label>
+          <label class="opt"><input type="radio" name="type" value="A-実用"><span>実用ツール型<small>具体的な作業を解決する</small></span></label>
+          <label class="opt"><input type="radio" name="type" value="B-特化"><span>趣味・特化型<small>特定の人だけに深く刺さる</small></span></label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label><span class="q">Q2</span>まず誰に届けたい？</label>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="lang" value="en" checked><span>海外（英語）<small>Reddit などへ</small></span></label>
+          <label class="opt"><input type="radio" name="lang" value="ja"><span>国内（日本語）<small>X / Qiita / Zenn など</small></span></label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label><span class="q">Q3</span>いまの悩みは？</label>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="pain" value="unknown" checked><span>誰にも見てもらえない<small>投稿しても反応がない</small></span></label>
+          <label class="opt"><input type="radio" name="pain" value="noclick"><span>見られても押されない<small>リンクがクリックされない</small></span></label>
+          <label class="opt"><input type="radio" name="pain" value="nostick"><span>一度きりで続かない<small>反応が次につながらない</small></span></label>
+        </div>
+      </div>
+
+      <button class="run" type="submit">最短ルートを出す →</button>
+    </form>
+
+    <div id="result" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- ============ Reddit超入門 ============ -->
+<section>
+  <div class="wrap">
+    <div class="section-title"><span class="idx">02</span><h2>Reddit、触ったことない人へ</h2></div>
+    <p class="section-sub">「カルマ？サブレ？」——大丈夫。最初はみんなそうです（運営者もそうでした）。</p>
+    <details class="intro">
+      <summary>Reddit超入門をひらく <span class="hint">知ってる人は飛ばしてOK <span class="chev">›</span></span></summary>
+      <div class="intro-body">
+        <div class="intro-row"><div class="k">Redditって？ Xと何が違う？</div><div class="v">Xは<b>フォロワーに届く（人で繋がる）</b>。Redditは<b>興味のコミュニティに届く（話題で繋がる）</b>。だからフォロワー0でも、刺されば一晩で数千人に見られます。</div></div>
+        <div class="intro-row"><div class="k">サブレ（subreddit）とは</div><div class="v">話題ごとの「部屋」。<b>r/〇〇</b>という名前。部屋ごとに<b>空気（文化）とルールが違う</b>のが最大の特徴です。</div></div>
+        <div class="intro-row"><div class="k">カルマとは</div><div class="v">投稿やコメントに付く<b>信用スコア</b>。低いと<b>投稿させてもらえない部屋</b>があります（スパム対策）。</div></div>
+        <div class="intro-row"><div class="k">最低限の流れ</div><div class="v">アカウント作成 → 部屋を探す → 投稿する → コメント/セルフコメントで会話する。</div></div>
+        <div class="intro-row"><div class="k">一発で嫌われる地雷</div><div class="v">いきなり宣伝リンクを貼る／同じ文を複数の部屋にコピペ／部屋のルール無視。<b>これだけは避ける。</b></div></div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="eyebrow">Our pledge / 約束</div>
+    <p class="pledge"><b>バズの運は、消せません。</b>消せるのは“避けられる失敗”——投稿できない部屋に出す、文化を外す、48時間放置する、といったものだけ。だから<b>効果は保証しません</b>。その代わり、自滅を減らし、何度も試せるよう付き合います。先行ツール CoLaunchly は「一度使って終わり」で失速しました。このツールは、<b>あなたが投稿し、結果を記録し、次の一手を回す</b>——その繰り返しの伴走に徹します。</p>
+    <div class="foot-meta">周知ラボ · PROMO LAB · MVP · ¥0 operation · static site</div>
+  </div>
+</footer>
+
+<script src="data/channels.js"></script>
+<script>
+(function(){
+  "use strict";
+  var CH = window.CHANNELS || [];
+
+  /* 型 → チャネル検索（今は A×感情 のみデータあり） */
+  function findChannel(tier, hook){
+    return CH.filter(function(c){ return c.fitsType.tier===tier && c.fitsType.hook===hook; });
+  }
+
+  var form = document.getElementById('advisor-form');
+  var result = document.getElementById('result');
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var type = form.type.value;       // "A-感情" 等
+    var lang = form.lang.value;
+    var pain = form.pain.value;
+    var parts = type.split('-');
+    var tier = parts[0], hook = parts[1];
+
+    // MVP：国内(ja)はまだ準備中、海外×感情のみ本番
+    if(lang==='ja'){
+      result.innerHTML = honestNotReady('国内（X / Qiita / Zenn）版は準備中です。', 'いまは「海外（英語）× 感情コンテンツ型」だけを、運営者の実データ付きで深く対応しています。Q2を「海外（英語）」にして試してください。');
+      reveal(); return;
+    }
+    var matches = findChannel(tier, hook);
+    if(matches.length===0){
+      result.innerHTML = honestNotReady('「'+labelType(type)+'」はまだ準備中です。', 'MVPでは「感情コンテンツ型」を、運営者が実際に汗をかいた一次データ付きで対応しています。まずはそこから。嘘の網羅より、確かな1つを。');
+      reveal(); return;
+    }
+    renderResult(matches, type, pain);
+    reveal();
+    result.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  function labelType(t){ return {'A-感情':'感情コンテンツ型','A-実用':'実用ツール型','B-特化':'趣味・特化型'}[t]||t; }
+
+  function honestNotReady(title, body){
+    return '<div class="result-card"><div class="verdict"><span class="pill hook">準備中</span><h3>'+title+'</h3></div>'+
+      '<p class="section-sub" style="margin-top:14px">'+body+'</p></div>';
+  }
+
+  function esc(s){ return String(s).replace(/[&<>]/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[m];}); }
+
+  function renderResult(matches, type, pain){
+    var c = matches[0]; // MVPは本命1つを深く
+    var html = '';
+
+    // 型判定
+    html += '<div class="result-card">';
+    html += '<div class="verdict"><span class="pill tier">'+esc(c.fitsType.tier)+' 一般向け</span><span class="pill hook">'+esc(c.fitsType.hook)+'</span>'+
+            '<h3>あなたは「'+labelType(type)+'」。まずは Reddit が最短です。</h3></div>';
+
+    // なぜReddit
+    html += '<div class="why"><h4>なぜ、まず Reddit なのか</h4><ol>'+
+      '<li>広告費ゼロで「生の人間」に届く（フォロワー0でも内容次第）。</li>'+
+      '<li>興味でコミュニティが分かれ、"自分ごと"の人にピンポイントで届く。</li>'+
+      '<li>濃いコメントが返る＝改善のヒント（このツールの燃料）。</li>'+
+      '<li>海外進出の最速の足がかり（SEOは数ヶ月、Redditは即日）。</li></ol>'+
+      '<div class="honest">正直に：クリック率は低めです（実データで表示の1%未満）。<b>1回で諦めない前提</b>で。だから"地道な営業"が要ります。</div></div>';
+
+    // チャネル計器カード
+    html += '<div class="channel"><div class="channel-head"><span class="name">'+esc(c.channel)+'</span><span class="rank">推奨度 '+esc(c.rank)+'</span></div>';
+    html += '<div class="readouts">'+
+      readout('CULTURE / 文化', c.cultureNote)+
+      readout('KARMA / 前提', c.prerequisite)+
+      readout('TIMING / 鉄則', c.timing)+
+    '</div>';
+    // 実データ（正直に）
+    var rd = c.realData;
+    if(rd.posted===false){
+      var r = rd.reference;
+      html += '<div class="channel-data">⚑ このサブレは<b>まだ未投稿</b>（'+esc(rd.plannedDate)+'予定）。数字はでっち上げません。<br>参考＝近縁の '+esc(r.channel)+'：<span class="real">表示'+r.views+' / upvote'+r.upvotes+' / 感情コメント'+r.emotionalComments+'</span> — '+esc(r.lesson)+'</div>';
+    }
+    html += '</div>';
+
+    // テンプレ（英日）
+    html += '<div style="margin-top:22px"><h4 style="font-family:\'Space Grotesk\',sans-serif; font-size:16px; margin:0 0 4px">投稿テンプレ（英語＋日本語訳）</h4>'+
+      '<p class="section-sub" style="margin:0 0 12px">[ ]を自分のアプリの言葉に差し替えてコピペ。AIは使わないので¥0です。</p>';
+    html += tplBlock('TITLE / タイトル', c.template.title);
+    html += tplBlock('BODY / 本文', c.template.body);
+    html += tplBlock('SELF-COMMENT / 最初の自コメント（ここで初めてリンク）', c.template.comment);
+    html += '</div>';
+
+    html += '</div>'; // result-card
+
+    // 実験ログ（PDCA）
+    html += logSection(c);
+
+    result.innerHTML = html;
+    bindCopy();
+    bindLog(c);
+    renderLogs(c);
+  }
+
+  function readout(k,v){ return '<div class="readout"><div class="k">'+k+'</div><div class="v">'+esc(v)+'</div></div>'; }
+
+  function tplBlock(tag, t){
+    var html = '<div class="tpl"><div class="tpl-row">';
+    html += '<div class="tag"><span>'+tag+'</span><button class="copy" type="button" data-copy="'+esc(t.en)+'">英語をコピー</button></div>';
+    html += '<div class="en">'+esc(t.en)+'</div>';
+    html += '<div class="ja">'+esc(t.ja)+'</div>';
+    if(t.blanks) html += '<div class="blanks"><b>埋め方：</b>'+esc(t.blanks)+'</div>';
+    if(t.example) html += '<div class="blanks">✅ 実例：'+esc(t.example)+'</div>';
+    if(t.note) html += '<div class="nuance">'+esc(t.note)+'</div>';
+    html += '</div></div>';
+    return html;
+  }
+
+  function logSection(c){
+    return '<div class="result-card"><div class="section-title" style="margin-bottom:4px"><span class="idx">LOG</span><h2 style="font-size:22px">投稿したら、結果を記録</h2></div>'+
+    '<p class="section-sub">ここがこのツールの心臓です。記録すると「次の一手」を返します。</p>'+
+    '<div class="log-grid">'+
+      '<div class="full"><label>どこへ投稿した？</label><input id="lg-where" type="text" placeholder="例: r/GenX" value="'+esc(c.channel.replace('Reddit ',''))+'"></div>'+
+      '<div><label>表示数</label><input id="lg-views" type="number" min="0" placeholder="0"></div>'+
+      '<div><label>upvote</label><input id="lg-up" type="number" min="0" placeholder="0"></div>'+
+      '<div><label>クリック</label><input id="lg-clicks" type="number" min="0" placeholder="0"></div>'+
+      '<div><label>感想・気づき</label><input id="lg-note" type="text" placeholder="例: タイトル弱かった"></div>'+
+    '</div>'+
+    '<button class="save" id="lg-save" type="button">記録する</button>'+
+    '<div id="lg-agg"></div><div id="lg-next"></div>'+
+    '<div class="log-list" id="lg-list"></div></div>';
+  }
+
+  /* ---- コピー ---- */
+  function bindCopy(){
+    Array.prototype.forEach.call(document.querySelectorAll('.copy'), function(btn){
+      btn.addEventListener('click', function(){
+        var txt = btn.getAttribute('data-copy');
+        navigator.clipboard && navigator.clipboard.writeText(txt).then(function(){
+          var old = btn.textContent; btn.textContent='コピーした ✓'; btn.classList.add('done');
+          setTimeout(function(){ btn.textContent=old; btn.classList.remove('done'); },1600);
+        });
+      });
+    });
+  }
+
+  /* ---- 実験ログ（localStorage） ---- */
+  var LS_KEY='promo-advisor-logs';
+  function loadLogs(){ try{ return JSON.parse(localStorage.getItem(LS_KEY))||[]; }catch(e){ return []; } }
+  function saveLogs(a){ localStorage.setItem(LS_KEY, JSON.stringify(a)); }
+
+  function bindLog(c){
+    var btn=document.getElementById('lg-save');
+    if(!btn) return;
+    btn.addEventListener('click', function(){
+      var entry={
+        where: (document.getElementById('lg-where').value||'').trim()||'(未記入)',
+        views: +document.getElementById('lg-views').value||0,
+        up: +document.getElementById('lg-up').value||0,
+        clicks: +document.getElementById('lg-clicks').value||0,
+        note: (document.getElementById('lg-note').value||'').trim(),
+        date: new Date().toISOString().slice(0,10)
+      };
+      var logs=loadLogs(); logs.unshift(entry); saveLogs(logs);
+      document.getElementById('lg-views').value='';
+      document.getElementById('lg-up').value='';
+      document.getElementById('lg-clicks').value='';
+      document.getElementById('lg-note').value='';
+      renderLogs(c);
+    });
+  }
+
+  function renderLogs(c){
+    var logs=loadLogs();
+    var listEl=document.getElementById('lg-list');
+    var aggEl=document.getElementById('lg-agg');
+    var nextEl=document.getElementById('lg-next');
+    if(!listEl) return;
+
+    if(logs.length===0){
+      listEl.innerHTML='<div class="empty">まだ記録がありません。投稿したら、上に数字を入れて「記録する」。</div>';
+      aggEl.innerHTML=''; nextEl.innerHTML=''; return;
+    }
+
+    // 集計
+    var totV=0, totC=0;
+    logs.forEach(function(l){ totV+=l.views; totC+=l.clicks; });
+    var avgCtr = totV>0 ? (totC/totV*100) : 0;
+    var best=logs.reduce(function(b,l){ var ctr=l.views>0?l.clicks/l.views:0; return ctr>(b.ctr||-1)?{where:l.where,ctr:ctr}:b; },{});
+    aggEl.innerHTML='<div class="agg">'+
+      '<div class="chip">投稿回数<b>'+logs.length+'</b></div>'+
+      '<div class="chip">平均CTR<b>'+avgCtr.toFixed(1)+'%</b></div>'+
+      (best.where?'<div class="chip">最高<b>'+esc(best.where)+' '+(best.ctr*100).toFixed(1)+'%</b></div>':'')+
+    '</div>';
+
+    // 次の一手（原因を断定しない・誠実版）
+    var latest=logs[0];
+    var ctr = latest.views>0 ? latest.clicks/latest.views : 0;
+    var good = (latest.views>0 && ctr>=0.02) || latest.up>=10;  // CTR2%以上 or upvote10以上＝好調の目安
+    var body;
+    if(good){
+      body = '<b>いい滑り出し。</b>何が効いたか一言メモして、同じ角度で別のサブレを“間隔を空けて”試そう。';
+    } else {
+      body = '原因は1つに断定できません。よくあるのはこの4つ：'+
+        '<ul class="causes"><li>サブレ（部屋）が合っていない</li><li>タイトルが弱い</li><li>投稿のタイミング</li><li>そもそも刺さっていない</li></ul>'+
+        '<b>まず1つだけ変えて、もう一度。</b>何を変えたかメモすると、次に効きます。';
+    }
+    nextEl.innerHTML='<div class="next"><div class="k">Next move / 次の一手</div><div class="v">'+body+'</div>'+
+      '<div class="bench">他の人の平均との比較は、データが集まったら出します（いまは準備中）。</div></div>';
+
+    // 一覧
+    listEl.innerHTML=logs.map(function(l){
+      var ctr=l.views>0?(l.clicks/l.views*100).toFixed(1)+'%':'—';
+      return '<div class="log-item"><span class="where">'+esc(l.where)+'</span><span>'+l.date+'</span>'+
+        '<span>表示'+l.views+' / up'+l.up+' / click'+l.clicks+'</span>'+
+        (l.note?'<span style="color:var(--muted)">“'+esc(l.note)+'”</span>':'')+
+        '<span class="ctr">CTR '+ctr+'</span></div>';
+    }).join('');
+  }
+
+  /* ---- 控えめなリビール ---- */
+  function reveal(){
+    requestAnimationFrame(function(){
+      Array.prototype.forEach.call(document.querySelectorAll('.reveal:not(.in)'), function(el){ el.classList.add('in'); });
+    });
+  }
+  // 初期：ヒーロー計器を出す
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches){ reveal(); }
+  else { setTimeout(reveal, 120); }
+})();
+</script>
+</body>
+</html>
