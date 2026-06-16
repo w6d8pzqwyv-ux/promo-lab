@@ -218,6 +218,13 @@
     .hero h1{max-width:none}
     .hero .lede{max-width:42ch}
     .hero .gauge{margin-top:0}
+    /* 読み物セクション：左に見出し／右に中身 */
+    .sec-grid{display:grid; grid-template-columns:250px 1fr; gap:56px; align-items:start}
+    .sec-head{position:sticky; top:84px}
+    .sec-head .section-sub{margin-bottom:0}
+    /* フッター：約束 左／メタ 右 */
+    footer .wrap{display:grid; grid-template-columns:1fr auto; gap:48px; align-items:end}
+    .foot-meta{text-align:right}
   }
 
   /* レスポンシブ */
@@ -269,9 +276,12 @@
 <!-- ============ ツール ============ -->
 <section id="tool">
   <div class="wrap">
-    <div class="section-title"><span class="idx">01</span><h2>3つだけ教えてください</h2></div>
-    <p class="section-sub">細かい分類は裏側でやります。あなたが選ぶのは3つだけ。</p>
-
+    <div class="sec-grid">
+    <div class="sec-head">
+      <div class="section-title"><span class="idx">01</span><h2>3つだけ教えてください</h2></div>
+      <p class="section-sub">細かい分類は裏側でやります。あなたが選ぶのは3つだけ。</p>
+    </div>
+    <div class="sec-body">
     <form class="tool" id="advisor-form">
       <div class="field">
         <label><span class="q">Q1</span>あなたのアプリは、どんな型？</label>
@@ -303,14 +313,20 @@
     </form>
 
     <div id="result" aria-live="polite"></div>
+    </div><!-- /.sec-body -->
+    </div><!-- /.sec-grid -->
   </div>
 </section>
 
 <!-- ============ Reddit超入門 ============ -->
 <section>
   <div class="wrap">
-    <div class="section-title"><span class="idx">02</span><h2>Reddit、触ったことない人へ</h2></div>
-    <p class="section-sub">「カルマ？サブレ？」——大丈夫。最初はみんなそうです（運営者もそうでした）。</p>
+    <div class="sec-grid">
+    <div class="sec-head">
+      <div class="section-title"><span class="idx">02</span><h2>Reddit、触ったことない人へ</h2></div>
+      <p class="section-sub">「カルマ？サブレ？」——大丈夫。最初はみんなそうです（運営者もそうでした）。</p>
+    </div>
+    <div class="sec-body">
     <details class="intro">
       <summary>Reddit超入門をひらく <span class="hint">知ってる人は飛ばしてOK <span class="chev">›</span></span></summary>
       <div class="intro-body">
@@ -366,13 +382,17 @@
         </div>
       </div>
     </details>
+    </div><!-- /.sec-body -->
+    </div><!-- /.sec-grid -->
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <div class="eyebrow">Our pledge / 約束</div>
+    <div class="foot-main">
+      <div class="eyebrow">Our pledge / 約束</div>
     <p class="pledge"><b>バズの運は、消せません。</b>消せるのは“避けられる失敗”——投稿できない部屋に出す、文化を外す、48時間放置する、といったものだけ。だから<b>効果は保証しません</b>。その代わり、自滅を減らし、何度も試せるよう付き合います。先行ツール CoLaunchly は「一度使って終わり」で失速しました。このツールは、<b>あなたが投稿し、結果を記録し、次の一手を回す</b>——その繰り返しの伴走に徹します。</p>
+    </div><!-- /.foot-main -->
     <div class="foot-meta">周知ラボ · PROMO LAB · MVP · ¥0 operation · <a href="privacy.html" style="color:inherit">プライバシーポリシー</a></div>
   </div>
 </footer>
