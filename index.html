@@ -186,6 +186,14 @@
   .intro-row .k{font-family:"Space Grotesk",sans-serif; font-weight:600; font-size:15px}
   .intro-row .v{color:var(--muted); margin-top:5px; font-size:14px}
   .intro-row .v b{color:var(--ink); font-weight:500}
+  .intro-step-head{margin:20px 0 0; padding-top:12px; font-family:"Space Mono",monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--signal); font-weight:700; border-top:2px solid var(--line-2)}
+  .gloss-group{margin-top:16px}
+  .gloss-group .gt{font-family:"Space Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--verify); font-weight:700; margin-bottom:4px}
+  .gloss-item{display:grid; grid-template-columns:150px 1fr; gap:12px; padding:8px 0; border-top:1px solid var(--line)}
+  .gloss-item .term{font-family:"Space Mono",monospace; font-weight:700; font-size:13px; color:var(--ink)}
+  .gloss-item .term small{display:block; font-family:"Noto Sans JP",sans-serif; color:var(--muted); font-weight:400; font-size:11px; margin-top:2px}
+  .gloss-item .def{font-size:14px; color:var(--muted)}
+  @media(max-width:560px){ .gloss-item{grid-template-columns:1fr; gap:2px} }
 
   /* フッター */
   footer{margin-top:40px; border-top:1px solid var(--line); padding:32px 0 60px}
@@ -295,11 +303,56 @@
     <details class="intro">
       <summary>Reddit超入門をひらく <span class="hint">知ってる人は飛ばしてOK <span class="chev">›</span></span></summary>
       <div class="intro-body">
-        <div class="intro-row"><div class="k">Redditって？ Xと何が違う？</div><div class="v">Xは<b>フォロワーに届く（人で繋がる）</b>。Redditは<b>興味のコミュニティに届く（話題で繋がる）</b>。だからフォロワー0でも、刺されば一晩で数千人に見られます。</div></div>
-        <div class="intro-row"><div class="k">サブレ（subreddit）とは</div><div class="v">話題ごとの「部屋」。<b>r/〇〇</b>という名前。部屋ごとに<b>空気（文化）とルールが違う</b>のが最大の特徴です。</div></div>
-        <div class="intro-row"><div class="k">カルマとは</div><div class="v">投稿やコメントに付く<b>信用スコア</b>。低いと<b>投稿させてもらえない部屋</b>があります（スパム対策）。</div></div>
-        <div class="intro-row"><div class="k">最低限の流れ</div><div class="v">アカウント作成 → 部屋を探す → 投稿する → コメント/セルフコメントで会話する。</div></div>
-        <div class="intro-row"><div class="k">一発で嫌われる地雷</div><div class="v">いきなり宣伝リンクを貼る／同じ文を複数の部屋にコピペ／部屋のルール無視。<b>これだけは避ける。</b></div></div>
+        <div class="intro-row"><div class="k">Redditって？ Xと何が違う？</div><div class="v">Xは<b>フォロワーに届く（人で繋がる）</b>。Redditは<b>興味のコミュニティに届く（話題で繋がる）</b>。だからフォロワー0でも、刺されば一晩で数千人に見られます。投稿は各「部屋」に出し、票（upvote）が集まると上位に表示されます。</div></div>
+
+        <div class="intro-step-head">最初の投稿までの5ステップ</div>
+        <div class="intro-row"><div class="k">手順① アカウントを作る</div><div class="v">メール登録だけで無料。<b>ユーザー名は基本あとで変えられない</b>ので慎重に。英語UIでも、やることは限られるので大丈夫です。</div></div>
+        <div class="intro-row"><div class="k">手順② カルマを貯める（最初の壁）</div><div class="v">作りたてアカウントは<b>多くの部屋で投稿できません</b>。まず興味のある部屋で<b>2〜3個コメント</b>して信用（カルマ）を貯める。いきなり宣伝投稿はしない。</div></div>
+        <div class="intro-row"><div class="k">手順③ 部屋を探す＆ルールを読む</div><div class="v">検索で <b>r/〇〇</b> を探し、右側（スマホは概要欄）の<b>「Rules」を必読</b>。「自己宣伝OK?」「リンク投稿OK?」を毎回確認。ここを飛ばすと即削除されます。</div></div>
+        <div class="intro-row"><div class="k">手順④ 投稿する</div><div class="v">基本は<b>テキスト投稿</b>。<b>リンクは本文に貼らず、自分の最初のコメントに置く</b>のが定石（宣伝臭を消せる）。勝負はほぼタイトルで決まります。</div></div>
+        <div class="intro-row"><div class="k">手順⑤ 最初の48時間が命</div><div class="v">投稿後<b>1時間は張り付く</b>。コメントが付いたら即返信。投稿主（OP）が会話していると、上位に留まって伸びます。</div></div>
+
+        <div class="intro-row"><div class="k">⚠ 一発で嫌われる地雷</div><div class="v">いきなり宣伝リンクを直貼り／同じ文を複数の部屋にコピペ連投／部屋のルール無視／自分の投稿へのupvoteをお願いする（自演）。<b>これだけは避ける。</b></div></div>
+
+        <div class="intro-row"><div class="k">英語が不安な人へ</div><div class="v">翻訳ツール併用でOK。<b>短く素朴な英語で十分</b>です。Redditは飾った英語より「本音の体験談」を好みます。完璧主義はいりません。</div></div>
+
+        <div class="intro-row">
+          <div class="k">用語ミニ辞典</div>
+          <div class="v">読んでいて「？」となった言葉だけ拾えばOK。</div>
+
+          <div class="gloss-group"><div class="gt">まず覚える6語</div>
+            <div class="gloss-item"><div class="term">サブレ<small>subreddit / sub</small></div><div class="def">話題ごとの「部屋」。r/〇〇 という名前で呼ばれる。</div></div>
+            <div class="gloss-item"><div class="term">OP</div><div class="def">投稿主。スレッドを立てた人のこと（Original Poster）。</div></div>
+            <div class="gloss-item"><div class="term">upvote / downvote</div><div class="def">↑賛成 / ↓反対の票。upが多いほど上位に表示される。</div></div>
+            <div class="gloss-item"><div class="term">karma<small>カルマ</small></div><div class="def">upvoteで貯まる信用スコア。投稿用とコメント用がある。低いと投稿できない部屋も。</div></div>
+            <div class="gloss-item"><div class="term">mod<small>モデレーター</small></div><div class="def">部屋の管理人。ルール違反を削除・追放(BAN)できる。</div></div>
+            <div class="gloss-item"><div class="term">thread<small>スレッド</small></div><div class="def">1つの投稿と、ぶら下がるコメントの集まり。</div></div>
+          </div>
+
+          <div class="gloss-group"><div class="gt">投稿まわり</div>
+            <div class="gloss-item"><div class="term">text post</div><div class="def">文章だけの投稿。まずはこれ。</div></div>
+            <div class="gloss-item"><div class="term">link post</div><div class="def">リンクを直接貼る投稿。宣伝に厳しい部屋では避ける。</div></div>
+            <div class="gloss-item"><div class="term">self-comment<small>セルフコメント</small></div><div class="def">自分の投稿に自分で付けるコメント。ここにリンクを置くのが定石。</div></div>
+            <div class="gloss-item"><div class="term">flair<small>フレア</small></div><div class="def">投稿やユーザー名に付くタグ・ラベル。投稿時に選ぶ部屋もある。</div></div>
+            <div class="gloss-item"><div class="term">crosspost</div><div class="def">同じ投稿を別の部屋へ共有すること。</div></div>
+          </div>
+
+          <div class="gloss-group"><div class="gt">知っておくと安心</div>
+            <div class="gloss-item"><div class="term">cake day</div><div class="def">アカウント開設の記念日。</div></div>
+            <div class="gloss-item"><div class="term">lurker</div><div class="def">見るだけで投稿しない人。最初はこれでOK。</div></div>
+            <div class="gloss-item"><div class="term">repost</div><div class="def">既出ネタの再投稿。嫌われやすい。</div></div>
+            <div class="gloss-item"><div class="term">shadowban<small>シャドウバン</small></div><div class="def">通知なしに投稿が他人へ見えなくされる制裁。スパム判定に注意。</div></div>
+            <div class="gloss-item"><div class="term">DM / chat</div><div class="def">個人間のメッセージ。</div></div>
+          </div>
+
+          <div class="gloss-group"><div class="gt">投稿でよく見る略語</div>
+            <div class="gloss-item"><div class="term">TL;DR</div><div class="def">「要するに（要約）」。長文の最後によく付く。</div></div>
+            <div class="gloss-item"><div class="term">ELI5</div><div class="def">「5歳児にもわかるように説明して」。</div></div>
+            <div class="gloss-item"><div class="term">TIL</div><div class="def">「今日知った（Today I Learned）」。</div></div>
+            <div class="gloss-item"><div class="term">IMO / IMHO</div><div class="def">「私見だけど（In My (Humble) Opinion）」。</div></div>
+            <div class="gloss-item"><div class="term">AMA</div><div class="def">「何でも聞いて」企画（Ask Me Anything）。</div></div>
+          </div>
+        </div>
       </div>
     </details>
   </div>
