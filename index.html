@@ -110,6 +110,13 @@
   .opt input:checked + span small{color:rgba(247,246,241,.7)}
   .run{font-family:"Space Grotesk",sans-serif; font-weight:600; font-size:16px; background:var(--signal); color:#fff; border:none; border-radius:999px; padding:14px 28px; cursor:pointer; transition:transform .15s, background .2s}
   .run:hover{background:var(--signal-ink); transform:translateY(-1px)}
+  /* 診断結果のサンプル（押す前に何が出るか見せる） */
+  .sample{margin:6px 0 22px; border:1px dashed var(--line-2); border-radius:12px; background:var(--paper); padding:16px 18px}
+  .sample-head{font-family:"Space Mono",monospace; font-size:11px; letter-spacing:.1em; color:var(--verify); font-weight:700; text-transform:uppercase; margin-bottom:12px}
+  .sample-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:9px}
+  .sample-list li{font-size:14px; color:var(--ink); display:flex; gap:10px; align-items:baseline}
+  .sample-list .sk{flex:0 0 auto; min-width:54px; text-align:center; font-family:"Space Mono",monospace; font-size:10.5px; letter-spacing:.04em; color:var(--card); background:var(--verify); border-radius:5px; padding:3px 8px; font-weight:700}
+  .sample-list b{font-weight:700}
 
   /* ---------- 結果 ---------- */
   #result{margin-top:8px}
@@ -310,6 +317,16 @@
           <label class="opt"><input type="radio" name="pain" value="noclick"><span>見られても押されない<small>リンクがクリックされない</small></span></label>
           <label class="opt"><input type="radio" name="pain" value="nostick"><span>一度きりで続かない<small>反応が次につながらない</small></span></label>
         </div>
+      </div>
+
+      <div class="sample" aria-hidden="true">
+        <div class="sample-head">診断するとこれが出ます（例）</div>
+        <ul class="sample-list">
+          <li><span class="sk">型</span>あなたは「感情コンテンツ型」と判定</li>
+          <li><span class="sk">部屋</span>まず狙うのは <b>r/GenX</b>（自虐ユーモアの文化に合う・理由つき）</li>
+          <li><span class="sk">文面</span>英語の投稿テンプレ＋<b>日本語訳</b>をコピペ（AI不要・¥0）</li>
+          <li><span class="sk">記録</span>投稿の結果を記録 → <b>次の一手</b>を提案（PDCA）</li>
+        </ul>
       </div>
 
       <button class="run" type="submit">最短ルートを出す →</button>
