@@ -198,8 +198,8 @@
 
   /* フッター */
   footer{margin-top:40px; border-top:1px solid var(--line); padding:32px 0 60px}
-  footer .wrap{display:flex; flex-direction:column; gap:14px}
-  .pledge{font-size:13.5px; color:var(--muted); max-width:64ch}
+  footer .wrap{display:flex; flex-direction:column; align-items:center; gap:16px; text-align:center; max-width:720px; margin:0 auto}
+  .pledge{font-size:13.5px; color:var(--muted); max-width:64ch; text-align:left}
   .pledge b{color:var(--ink); font-weight:500}
   .foot-meta{font-family:"Space Mono",monospace; font-size:11px; color:var(--muted); letter-spacing:.06em}
 
@@ -225,9 +225,7 @@
     .sec-head{position:sticky; top:84px}
     .sec-head .section-title h2{font-size:21px; line-height:1.35}
     .sec-head .section-sub{margin-bottom:0}
-    /* フッター：約束 左／メタ 右 */
-    footer .wrap{display:grid; grid-template-columns:1fr auto; gap:48px; align-items:end}
-    .foot-meta{text-align:right}
+    /* フッター：中央寄せ1カラム（基本スタイルを使う） */
   }
 
   /* レスポンシブ */
