@@ -205,6 +205,22 @@
   .gloss-item .def{font-size:14px; color:var(--muted)}
   @media(max-width:560px){ .gloss-item{grid-template-columns:1fr; gap:2px} }
 
+  /* ---------- 実験ログ（公開） ---------- */
+  .logbook{display:flex; flex-direction:column; gap:14px}
+  .log-entry{border:1px solid var(--line); border-left:3px solid var(--verify); border-radius:12px; background:var(--card); padding:16px 18px; box-shadow:var(--shadow)}
+  .log-entry.warn{border-left-color:var(--signal)}
+  .log-entry.skip{border-left-color:var(--line-2)}
+  .log-meta{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:10px}
+  .log-date{font-family:"Space Mono",monospace; font-size:11px; color:var(--muted); letter-spacing:.06em}
+  .log-tag{font-family:"Space Grotesk",sans-serif; font-weight:600; font-size:15px}
+  .log-nums{display:flex; gap:18px; flex-wrap:wrap; font-family:"Space Mono",monospace; font-size:13px; color:var(--muted); margin-bottom:10px}
+  .log-nums b{font-size:18px; color:var(--ink); font-weight:700; letter-spacing:-.02em; margin-right:4px}
+  .log-nums .bad b{color:var(--signal)}
+  .log-nums .status{font-size:13px; color:var(--ink)}
+  .log-lesson{font-size:14px; color:var(--ink); line-height:1.7}
+  .log-lesson .lk{display:inline-block; font-family:"Space Mono",monospace; font-size:10.5px; letter-spacing:.08em; color:var(--card); background:var(--verify); border-radius:5px; padding:2px 8px; margin-right:8px; font-weight:700; text-transform:uppercase; vertical-align:1px}
+  .log-note{margin-top:16px; font-size:12.5px; color:var(--muted)}
+
   /* フッター */
   footer{margin-top:40px; border-top:1px solid var(--line); padding:32px 0 60px}
   footer .wrap{display:flex; flex-direction:column; align-items:center; gap:16px; text-align:center; max-width:720px; margin:0 auto}
@@ -404,6 +420,47 @@
     </details>
     </div><!-- /.sec-body -->
     </div><!-- /.sec-grid -->
+  </div>
+</section>
+
+<!-- ============ 実験ログ（公開） ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-grid">
+    <div class="sec-head">
+      <div class="section-title"><span class="idx">03</span><h2>実験ログ（公開）</h2></div>
+      <p class="section-sub">成功も失敗も、隠さず載せます。運営者が実際に試した、ありのままの記録です。</p>
+    </div>
+    <div class="sec-body">
+      <div class="logbook">
+
+        <div class="log-entry warn">
+          <div class="log-meta"><span class="log-date">2026-06-16</span><span class="log-tag">r/midlifecrisis に投稿</span></div>
+          <div class="log-nums">
+            <span><b>1136</b>表示</span>
+            <span><b>4</b>upvote</span>
+            <span class="bad"><b>1</b>クリック</span>
+            <span><b>0.09%</b>CTR</span>
+          </div>
+          <div class="log-lesson"><span class="lk">学び</span>リーチ≠クリック。1000人以上に見られても、刺さらなければ誰も来ない。</div>
+        </div>
+
+        <div class="log-entry skip">
+          <div class="log-meta"><span class="log-date">2026-06-17</span><span class="log-tag">r/GenX：投稿を見送り</span></div>
+          <div class="log-nums"><span class="status">Rule 12 — 自己宣伝は事前モッド承認制と判明</span></div>
+          <div class="log-lesson"><span class="lk">学び</span>良い部屋ほど自己宣伝に厳しい。ルール無視で出せば即削除。承認を取るか、別の部屋へ。</div>
+        </div>
+
+        <div class="log-entry">
+          <div class="log-meta"><span class="log-date">2026-06-17</span><span class="log-tag">アカウントの“温め”を開始</span></div>
+          <div class="log-nums"><span class="status">新規アカ＝信用ゼロ。まず本音のコメントで参加する</span></div>
+          <div class="log-lesson"><span class="lk">学び</span>最初の投稿の前に、まず“中の人”になる。いきなり宣伝はスパム扱いされる。</div>
+        </div>
+
+      </div>
+      <p class="log-note">※このログは実話です。うまくいったフリはしません。次の更新は「温めたアカウントでの初投稿の結果」。</p>
+    </div>
+    </div>
   </div>
 </section>
 
