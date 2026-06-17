@@ -62,7 +62,8 @@
   /* ---------- ヒーロー ---------- */
   .hero{padding:84px 0 56px; position:relative; overflow:hidden}
   .hero .eyebrow{margin-bottom:22px}
-  .hero h1{font-size:clamp(34px,6vw,62px); font-weight:700; margin:0 0 8px; max-width:16ch}
+  .hero h1{font-size:clamp(30px,6vw,58px); font-weight:700; margin:0 0 8px; max-width:18ch}
+  .hero h1 .hl{display:block}
   .hero h1 .strike{position:relative; white-space:nowrap}
   .hero h1 .strike::after{content:""; position:absolute; left:-2%; right:-2%; top:54%; height:5px; background:var(--signal); transform:rotate(-2deg); border-radius:2px}
   .hero .lede{font-size:clamp(16px,2.2vw,20px); color:var(--muted); max-width:46ch; margin:18px 0 0; line-height:1.7}
@@ -214,13 +215,15 @@
   /* PC：ヒーローを2段組み（見出し左／実データ計器 右） */
   @media (min-width:900px){
     .hero{padding:96px 0 64px}
-    .hero .wrap{display:grid; grid-template-columns:1.05fr .95fr; gap:56px; align-items:center}
-    .hero h1{max-width:none}
+    .hero .wrap{display:grid; grid-template-columns:1.2fr .8fr; gap:56px; align-items:center}
+    .hero h1{max-width:none; font-size:clamp(36px,3.6vw,48px)}
+    .hero h1 .hl{white-space:nowrap}
     .hero .lede{max-width:42ch}
     .hero .gauge{margin-top:0}
     /* 読み物セクション：左に見出し／右に中身 */
-    .sec-grid{display:grid; grid-template-columns:250px 1fr; gap:56px; align-items:start}
+    .sec-grid{display:grid; grid-template-columns:280px 1fr; gap:56px; align-items:start}
     .sec-head{position:sticky; top:84px}
+    .sec-head .section-title h2{font-size:21px; line-height:1.35}
     .sec-head .section-sub{margin-bottom:0}
     /* フッター：約束 左／メタ 右 */
     footer .wrap{display:grid; grid-template-columns:1fr auto; gap:48px; align-items:end}
@@ -252,7 +255,7 @@
   <div class="wrap">
     <div class="hero-text">
     <div class="eyebrow">For solo makers / 個人開発者のための</div>
-    <h1>周知は、<span class="strike">魔法</span>じゃない。<br>地道な営業だ。</h1>
+    <h1><span class="hl">周知は、<span class="strike">魔法</span>じゃない。</span><span class="hl">地道な営業だ。</span></h1>
     <p class="lede">「どこで・どう・何を投稿するか」を、型に合わせて具体的に。でも“正解を授ける”ツールではありません。運営者もまだ手探りで、実際に試した記録を持ち寄り、あなたと一緒に次の一手を探していきます。</p>
     <div class="hero-cta">
       <a class="cta-primary" href="#tool">あなたのアプリを診断する <span class="arrow">→</span></a>
@@ -393,7 +396,11 @@
       <div class="eyebrow">Our pledge / 約束</div>
     <p class="pledge"><b>バズの運は、消せません。</b>消せるのは“避けられる失敗”——投稿できない部屋に出す、文化を外す、48時間放置する、といったものだけ。だから<b>効果は保証しません</b>。その代わり、自滅を減らし、何度も試せるよう付き合います。先行ツール CoLaunchly は「一度使って終わり」で失速しました。このツールは、<b>あなたが投稿し、結果を記録し、次の一手を回す</b>——その繰り返しの伴走に徹します。</p>
     </div><!-- /.foot-main -->
-    <div class="foot-meta">周知ラボ · PROMO LAB · MVP · ¥0 operation · <a href="privacy.html" style="color:inherit">プライバシーポリシー</a></div>
+    <div class="foot-meta">
+      <a href="privacy.html" style="color:inherit">プライバシーポリシー</a><br>
+      周知ラボ · PROMO LAB<br>
+      MVP · ¥0 operation
+    </div>
   </div>
 </footer>
 
