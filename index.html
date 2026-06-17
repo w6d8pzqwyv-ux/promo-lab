@@ -263,13 +263,13 @@
 
     <!-- 計器：嘘をつかない実データ（ヒーローの目玉） -->
     <div class="gauge reveal" aria-label="運営者の実データ">
-      <div class="gauge-head"><span class="live"></span>運営者の実投稿データ &nbsp;/&nbsp; r/midlifecrisis &nbsp;·&nbsp; 2026-06-16</div>
+      <div class="gauge-head"><span class="live"></span>運営者の実投稿データ &nbsp;/&nbsp; r/midlifecrisis &nbsp;·&nbsp; 48時間の結果</div>
       <div class="gauge-body">
-        <div class="stat"><div class="n">411</div><div class="l">表示 / views</div></div>
-        <div class="stat"><div class="n">3</div><div class="l">upvote</div></div>
-        <div class="stat warn"><div class="n">0</div><div class="l">感情コメント</div></div>
+        <div class="stat"><div class="n">1136</div><div class="l">表示 / views</div></div>
+        <div class="stat"><div class="n">4</div><div class="l">upvote</div></div>
+        <div class="stat warn"><div class="n">1</div><div class="l">クリック / click</div></div>
       </div>
-      <div class="gauge-foot">景気のいい数字は載せません。これは<b>実際に出た、ありのままの結果</b>です。ここから何を学ぶか——それを一緒にやるのがこのツールです。</div>
+      <div class="gauge-foot">1136人が見て、サイトに来たのは<b>たった1人</b>（CTR 0.09%）。景気のいい数字は載せません。これが<b>ありのままの現実</b>です。だから「リーチ」ではなく「次の一手」を一緒に回します。</div>
     </div>
   </div>
 </section>
@@ -476,7 +476,7 @@
     var rd = c.realData;
     if(rd.posted===false){
       var r = rd.reference;
-      html += '<div class="channel-data">⚑ このサブレは<b>まだ未投稿</b>（'+esc(rd.plannedDate)+'予定）。数字はでっち上げません。<br>参考＝近縁の '+esc(r.channel)+'：<span class="real">表示'+r.views+' / upvote'+r.upvotes+' / 感情コメント'+r.emotionalComments+'</span> — '+esc(r.lesson)+'</div>';
+      html += '<div class="channel-data">⚑ このサブレは<b>まだ未投稿</b>（'+esc(rd.plannedDate)+'予定）。数字はでっち上げません。<br>参考＝近縁の '+esc(r.channel)+'：<span class="real">表示'+r.views+' / upvote'+r.upvotes+' / クリック'+r.clicks+'</span> — '+esc(r.lesson)+'</div>';
     }
     html += '</div>';
 

@@ -43,10 +43,11 @@ window.CHANNELS = [
       reference: {
         channel: "Reddit r/midlifecrisis",
         date: "2026-06-16",
-        views: 411,
-        upvotes: 3,
+        views: 1136,
+        upvotes: 4,
+        clicks: 1,
         emotionalComments: 0,
-        lesson: "悩みを吐く場には外部リンクが刺さりにくい。GenXのような『笑い合う場』の方が向く可能性。"
+        lesson: "48時間で表示1136・クリック1（CTR0.09%）。悩みを吐く部屋は閲覧されても外部ツールに動きにくい。GenXのような『笑い合う部屋』を次に試す。"
       }
     },
 
